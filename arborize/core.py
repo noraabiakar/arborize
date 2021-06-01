@@ -6,13 +6,14 @@ from .exceptions import *
 import numpy as np
 
 if not os.getenv('READTHEDOCS'):
-    from patch import p
-    from patch.objects import Section
-    import glia as g
-    from .synapse import Synapse
-    import glia.exceptions
-    p.load_file('stdlib.hoc')
-    p.load_file('import3d.hoc')
+    # from patch import p
+    # from patch.objects import Section
+    # import glia as g
+    # from .synapse import Synapse
+    # import glia.exceptions
+    # p.load_file('stdlib.hoc')
+    # p.load_file('import3d.hoc')
+    pass
 
 class Builder:
     """
@@ -151,12 +152,13 @@ class NeuronModel:
 
     @classmethod
     def _import_morphologies(cls):
-        m_dir = getattr(cls, "morphology_directory", cls._get_default_morphology_dir())
-        cls.morphology_directory = os.path.abspath(m_dir)
-        cls.imported_morphologies = []
-        for morphology in cls.morphologies:
-            builder = cls.make_builder(morphology, path=m_dir)
-            cls.imported_morphologies.append(builder)
+        pass
+        # m_dir = getattr(cls, "morphology_directory", cls._get_default_morphology_dir())
+        # cls.morphology_directory = os.path.abspath(m_dir)
+        # cls.imported_morphologies = []
+        # for morphology in cls.morphologies:
+        #     builder = cls.make_builder(morphology, path=m_dir)
+        #     cls.imported_morphologies.append(builder)
 
     @classmethod
     def _get_default_morphology_dir(cls):
@@ -434,6 +436,7 @@ class NeuronModel:
             raise NotImplementedError("Can't use builders for cable cells, must import from file. Please export your morphology builder to an SWC or ASC file and update `cls.morphologies`.")
         path = os.path.join(cls.morphology_directory, cls.morphologies[morphology])
         morph, labels = _try_arb_morpho(path)
+        print("HITTING MORPH", morph)
         _cc_insert_labels(labels, getattr(cls, "labels", {}))
         composites = _arb_resolve_composites(cls.section_types, labels)
         decor = arbor.decor()
